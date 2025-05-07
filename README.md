@@ -57,7 +57,7 @@ The struct is defined in `modbus.h`.
 Below is a list over public function code:
 
 | Code | Name                                    | Callback function            |
----------------------------------------------------------------------------------
+| ---- | --------------------------------------- | ---------------------------- |
 | 0x02 | MODBUS_READ_DISCRETE_INPUTS_FC          | ModbusReadBitsCallback       |
 | 0x01 | MODBUS_READ_COILS_FC                    | ModbusReadBitsCallback       |
 | 0x05 | MODBUS_WRITE_SINGLE_COIL_FC             | ModbusWriteBitsCallback      |
@@ -87,7 +87,7 @@ All other function codes will map to `ModbusOtherFunctionsCallback`.
 Below is a list of valid return values from a callback function:
 
 | Code | Name                                                 |
----------------------------------------------------------------
+| ---- | ---------------------------------------------------- |
 | 0x00 | MODBUS_ERROR_OK                                      |
 | 0x01 | MODBUS_ERROR_ILLEGAL_FUNCTION                        |
 | 0x02 | MODBUS_ERROR_ILLEGAL_DATA_ADDRESS                    |
