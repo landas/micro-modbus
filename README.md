@@ -176,7 +176,7 @@ void modbus_freertos_task(void const * argument) {
 
 ```
 
-**Note:** This code will silently ignore any attempts by the Modbus client to read from or write to register addresses that are not available. If the client executes function codes other than `MODBUS_READ_INPUT_REGISTERS_FC`, `MODBUS_READ_HOLDING_REGISTERS_FC`, `MODBUS_WRITE_SINGLE_REGISTER_FC`, `MODBUS_WRITE_MULTIPLE_REGISTERS_FC` or `MODBUS_READ_WRITE_MULTIPLE_REGISTERS_FC` it will return a `MODBUS_ERROR_ILLEGAL_FUNCTION` error message.
+**Note:** This example code will silently ignore any attempts by the Modbus client to read from or write to register addresses that are not available. If the client executes function codes other than `MODBUS_READ_INPUT_REGISTERS_FC`, `MODBUS_READ_HOLDING_REGISTERS_FC`, `MODBUS_WRITE_SINGLE_REGISTER_FC`, `MODBUS_WRITE_MULTIPLE_REGISTERS_FC` or `MODBUS_READ_WRITE_MULTIPLE_REGISTERS_FC` it will return a `MODBUS_ERROR_ILLEGAL_FUNCTION` error message.
 
 ## Porting the Code
 
