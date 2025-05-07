@@ -29,7 +29,7 @@ typedef uint8_t (*ModbusReadBitsCallback)(uint8_t function_code, uint8_t data_ta
 typedef uint8_t (*ModbusWriteBitsCallback)(uint8_t function_code, uint8_t data_table_type,uint16_t starting_address, uint16_t quiantity_of_registers, uint8_t* data);
 typedef uint8_t (*ModbusReadWordsCallback)(uint8_t function_code, uint8_t data_table_type,uint16_t starting_address, uint16_t quiantity_of_registers, uint16_t* data);
 typedef uint8_t (*ModbusWriteWordsCallback)(uint8_t function_code, uint8_t data_table_type,uint16_t starting_address, uint16_t quiantity_of_registers, uint16_t* data);
-typedef uint8_t (*ModbusOtherFunctionsCallback)(uint8_t function_code, uint8_t* input,uint32_t input_size, uint8_t* output, uint32_t output_size, uint8_t prepend_size, uint8_t append_size);
+typedef uint8_t (*ModbusOtherFunctionsCallback)(uint8_t function_code, uint8_t* input,uint32_t input_size, uint8_t* output, uint16_t *output_size, uint8_t prepend_size, uint8_t append_size);
 ```
 
 Callback functions are defined in `modbus.h`.
@@ -78,7 +78,7 @@ Below is a list over public function code:
 | 0x11 | MODBUS_REPORT_SERVER_ID_FC              | ModbusOtherFunctionsCallback |
 | 0x43 | MODBUS_READ_DEVICE_INDENTIFICATION_FC   | ModbusOtherFunctionsCallback |
 
-**Note:** `MODBUS_READ_WRITE_MULTIPLE_REGISTERS_FC` is handled by first calling the `ModbusWriteWordsCallback` callback function and then the `ModbusReadWordsCallback` callback function.
+**Note:** `MODBUS_READ_WRITE_MULTIPLE_REGISTERS_FC` is handled by first calling the `ModbusWriteWordsCallback` callback function and then the `ModbusReadWordsCallback` callback function, in accordance with the Modbus protocol.
 
 All other function codes will map to `ModbusOtherFunctionsCallback`.
 
@@ -217,18 +217,6 @@ Additionally, update the following include files in `modbus_tcp.h` with the appr
 ```c
 #include "lwip/inet.h"
 #include "lwip/sockets.h"
-```
-
-## Known Issues
-
-In my implementations, I was unable to get lwIP to support TCP KeepAlive. As a workaround, I have added code to automatically disconnect the client after `MODBUS_TCP_CLIENT_TIMEOUT_SECONDS` seconds, as defined in `modbus_tcp.h`.
-
-If you successfully enable TCP KeepAlive in your socket implementation, you can remove the following lines from `modbus_tcp.c`:
-```c
-struct timeval timeout;
-timeout.tv_sec = MODBUS_TCP_CLIENT_TIMEOUT_SECONDS;
-timeout.tv_usec = 0;
-lwip_setsockopt(client_sock, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
 ```
 
 ## Author
