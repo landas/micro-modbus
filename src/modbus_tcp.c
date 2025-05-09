@@ -101,7 +101,7 @@ void modbus_tcp_connection_handle(void *parameters)
 	       && (bytes_received = lwip_recv(client->socket, buffer, 64, 0)) > 0) {
 		ret = modbus_tcp_handle_request((uint8_t*)buffer, bytes_received,
 						client->modbus_callbacks, client->socket);
-		osDelay(10);
+		osDelay(MODBUS_CONNECTION_INTERVAL_MS);
 	}
 
 	lwip_close(client->socket);
@@ -193,7 +193,7 @@ void modbus_tcp_start(char* server_ip, uint16_t server_port,
 			continue;
 		}
 
-		osDelay(10);
+		osDelay(MODBUS_CONNECTION_INTERVAL_MS);
 	}
 
 	lwip_close(sockfd);
