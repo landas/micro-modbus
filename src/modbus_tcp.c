@@ -92,13 +92,13 @@ int16_t modbus_tcp_find_free_connection_slot(ModbusTCPClient
 
 void modbus_tcp_connection_handle(void *parameters)
 {
-	char buffer[64];
+	char buffer[MODBUS_RECV_BUFFER_SIZE];
 	int bytes_received;
 	int ret = 0;
 	ModbusTCPClient *client = (ModbusTCPClient *)parameters;
 
 	while (ret != MODBUS_TCP_CLOSE_CONNECTION
-	       && (bytes_received = lwip_recv(client->socket, buffer, 64, 0)) > 0) {
+	       && (bytes_received = lwip_recv(client->socket, buffer, MODBUS_RECV_BUFFER_SIZE, 0)) > 0) {
 		ret = modbus_tcp_handle_request((uint8_t*)buffer, bytes_received,
 						client->modbus_callbacks, client->socket);
 		osDelay(MODBUS_CONNECTION_INTERVAL_MS);
@@ -166,7 +166,7 @@ void modbus_tcp_start(char* server_ip, uint16_t server_port,
 			// Setup TCP/IP keepalive for client connection
 			int tcp_keepalive_idle_time = MODBUS_TCP_KEEPALIVE_IDLE_TIME_SECONDS;
 			int tcp_keepalive_interval_time = MODBUS_TCP_KEEPALIVE_ITERVAL_TIME_SECONDS;
-			int tcp_keepalive_retry_count = MODBUS_TCP_KEEPALIVE_ITERVAL_TIME_SECONDS;
+			int tcp_keepalive_retry_count = MODBUS_TCP_KEEPALIVE_RETRY_COUNT;
 			int tcp_keepalive_enable = 1;
 
 			lwip_setsockopt(client_sock, SOL_SOCKET, SO_KEEPALIVE, &tcp_keepalive_enable,
