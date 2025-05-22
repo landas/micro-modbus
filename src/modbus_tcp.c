@@ -186,7 +186,7 @@ void modbus_tcp_start(char* server_ip, uint16_t server_port,
 				    "modbcon",
 				    configMINIMAL_STACK_SIZE,
 				    (void *)&modbus_tcp_clients[connection_slot],
-					osPriorityNormal,
+					MODBUS_THREAD_PRIO,
 				    NULL);
 		} else {
 			lwip_close(client_sock);
