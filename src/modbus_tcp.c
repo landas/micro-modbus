@@ -144,7 +144,7 @@ void modbus_tcp_start(char* server_ip, uint16_t server_port,
 		return;
 	}
 
-	if (lwip_listen(sockfd, 2) < 0) {
+	if (lwip_listen(sockfd, max_clients) < 0) {
 		lwip_close(sockfd);
 		return;
 	}
@@ -186,7 +186,7 @@ void modbus_tcp_start(char* server_ip, uint16_t server_port,
 				    "modbcon",
 				    configMINIMAL_STACK_SIZE,
 				    (void *)&modbus_tcp_clients[connection_slot],
-				    osPriorityNormal,
+					osPriorityNormal,
 				    NULL);
 		} else {
 			lwip_close(client_sock);
